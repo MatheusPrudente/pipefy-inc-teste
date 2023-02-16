@@ -34,7 +34,6 @@ function stringChallenge(str) {
     finalStr += currentNumber;
   }
   finalStr += ":" + reverseToken("token");
-  console.log(finalStr);
   return replaceQuartets(finalStr);
 }
 

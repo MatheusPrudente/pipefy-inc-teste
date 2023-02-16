@@ -21,29 +21,29 @@ const mathematicalSymbols = {
 function stringChallenge(str) {
   let mathematicalFormula = convertToMathematicalFormula(str);
   let result = eval(mathematicalFormula);
+  let finalStr = convertToFullNumber(result) + ":" + reverseToken("token");
 
-  return convertToFullNumber(result) + ":" + reverseToken("token");
+  return replaceQuartets(finalStr);
 }
 
-function convertToMathematicalFormula (str) {
+function convertToMathematicalFormula(str) {
   let mathematicalFormula = "";
   let currentString = "";
 
-  for(let index = 0; index < str.length; index++) {
-    currentString += str.substring(index,index + 1);
+  for (let index = 0; index < str.length; index++) {
+    currentString += str.substring(index, index + 1);
 
-    if(numbers[currentString]) {
+    if (numbers[currentString]) {
       mathematicalFormula += numbers[currentString];
       currentString = "";
     }
-    
-    if(mathematicalSymbols[currentString]) {
-      mathematicalFormula += mathematicalSymbols[currentString]
+
+    if (mathematicalSymbols[currentString]) {
+      mathematicalFormula += mathematicalSymbols[currentString];
       currentString = "";
     }
-  } 
+  }
 
-  console.log(mathematicalFormula);
   return mathematicalFormula;
 }
 
@@ -52,13 +52,13 @@ function convertToFullNumber(result) {
   let isNegative = result < 0;
   let resultStr = result.toString();
   let objet = Object.entries(numbers);
-  
+
   if (mathematicalSymbols[resultStr[0]]) {
     start = 1;
     fullNumber += mathematicalSymbols[resultStr[0]];
   }
-  
-  for(let index = 0; index < resultStr.length; index++) {
+
+  for (let index = 0; index < resultStr.length; index++) {
     for (let [key, value] of objet) {
       if (value.toString() === resultStr[index]) {
         fullNumber += key;
@@ -78,6 +78,14 @@ function convertToFullNumber(result) {
 
 function reverseToken(token) {
   return token.split("").reverse().join("");
+}
+
+function replaceQuartets(str) {
+  for (let index = 3; index < str.length; index += 4) {
+    str = str.substring(0, index) + "_" + str.substring(index + "_".length);
+  }
+
+  return str;
 }
 
 console.log(stringChallenge("foursixminustwotwoplusonezero"));
